@@ -96,8 +96,8 @@ async def extract_and_generate_embeddings(request, file: UploadedFileNinja = Fil
     """
     try:
         return await extract_and_generate_embeddings_helper(file)
-    except Exception as e:
-        raise HttpError(400, f"Error extracting and generating embeddings from PDF. {e}")
+    except Exception:
+        raise HttpError(400, f"Error extracting and generating embeddings from PDF.")
 
 @router.post(
     "/conversations/start",
@@ -123,8 +123,8 @@ async def start_pdf_conversation(request, chat_message: str, file: UploadedFileN
     """
     try:
         return await start_pdf_inquest_helper(chat_message, file)
-    except Exception as e:
-        raise HttpError(400, f"Error starting PDF inquest. {e}")
+    except Exception:
+        raise HttpError(400, "Error starting PDF inquest.")
 
 @router.post(
     "/conversations/{conversation_id}/continue",
