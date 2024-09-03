@@ -172,3 +172,19 @@ class ConversationSchema(Schema):
 class ConversationListSchema(Schema):
     conversations: list[ConversationSchema]
 
+class Source(models.Model):
+    id_external = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    name = models.CharField(max_length=255) # Name of the Source instance
+    uploaded_files = models.ManyToManyField(UploadedFile, related_name='source_files') # Files associated with the Source
+    description = models.TextField(blank=True) # Description of the Source
+    source_name = models.CharField(max_length=255) # Name of the source location (e.g. "OneDrive Specifications Folder")
+    source_type = models.CharField(max_length=255) # Type of source (e.g. "OneDrive", "URL", "File", "Database", etc.)
+    source_format = models.CharField(max_length=255) # Format of the source files (e.g. "PDF", "CSV", "JSON", "MIXED", etc.)
+    source_path = models.CharField(max_length=255) # Path to the source (e.g. URL, file path, database name, etc.)
+    created_at = models.DateTimeField(auto_now_add=True) # When the Source was created
+    updated_at = models.DateTimeField(auto_now=True) # When the Source was last updated
+    metadata = models.JSONField(default=dict) # Metadata about the Source
+    tags = models.JSONField(default=list) # Tags for the Source
+
+    def __str__(self):
+        return self.id_external
